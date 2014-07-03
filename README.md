@@ -1,4 +1,4 @@
-# Einfache Installation eine Docker Entwicklungsumgebung
+# Einfache Installation eine Docker-Vagrant-VirtualBox Umgebung
 
 Für Beispiele im Bereich der Netzwerke ist es ratsam lieber ein 
 eigene Linux Distribution mit Virtualbox und Vagrant aufzusetzen.
