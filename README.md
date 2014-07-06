@@ -1,6 +1,6 @@
 # Einfache Installation eine Docker-Vagrant-VirtualBox Umgebung
 
-Für Beispiele im Bereich der Netzwerke ist es ratsam lieber ein 
+Für Beispiele im Bereich der Netzwerke ist es ratsam lieber ein
 eigene Linux Distribution mit Virtualbox und Vagrant aufzusetzen.
 
 Wir verwenden dafür ein aktuelles Trusty Ubuntu 14.04 LTS.
@@ -17,6 +17,8 @@ Die Docker Provisionierung haben wir in drei Teile aufgeteilt:
     - Test eines einfachen Testcontainers.
 
 ![Docker Box](design-dockerbox.png)
+
+Das Beispiel wird im infrabricks Blog Post [Docker entschlüsselt Netzwerk Tei 1](http://www.infrabricks.de/blog/2014/07/06/docker-entschlusselt-netzwerk/)  verwendet.
 
 ## Mehr ist möglich
 
