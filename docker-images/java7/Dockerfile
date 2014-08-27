@@ -6,6 +6,7 @@
 
 # Pull base image.
 FROM dockerfile/ubuntu
+MAINTAINER Peter Rossbach <peter.rossbach@bee42.com>
 
 ENV JAVAVERSION 7
 
