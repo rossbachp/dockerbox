@@ -11,17 +11,18 @@ Vagrant.configure("2") do |config|
     c.vm.host_name = "dockerbox.example.com"
     c.vm.provider 'virtualbox' do |vb|
          vb.gui = false
- 		 vb.customize [ 'modifyvm', :id, '--nicpromisc2', 'allow-all']
+    vb.customize [ 'modifyvm', :id, '--nicpromisc2', 'allow-all']
          vb.customize [ 'modifyvm', :id, '--memory', '1024']
          vb.customize [ 'modifyvm', :id, '--cpus', '2']
          vb.name = 'dockerbox'
     end
 
-	c.vm.synced_folder "docker.d", "/srv/docker"
+    c.vm.synced_folder "docker.d", "/srv/docker"
 
-	c.vm.provision "shell", path: 'provision.d/01_packages.shprov'
-	c.vm.provision "shell", path: 'provision.d/10_docker.shprov'
-	c.vm.provision "shell", path: 'provision.d/15_docker_prepare_image.shprov'
+    c.vm.provision "shell", path: 'provision.d/01_packages.shprov'
+    c.vm.provision "shell", path: 'provision.d/10_docker.shprov'
+    c.vm.provision "shell", path: 'provision.d/15_docker_prepare_image.shprov'
+    c.vm.provision "shell", path: 'provision.d/16_docker_tools.shprov'
 
   end
 end

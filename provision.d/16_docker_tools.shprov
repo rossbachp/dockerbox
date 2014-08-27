@@ -1,0 +1,15 @@
+echo == Installing nice docker tools
+
+if [ ! -x /usr/local/bin/nsenter ]; then
+  echo = Install nsenter
+
+  sudo docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+fi
+
+if [ ! -x /usr/local/bin/fig ]; then
+  echo = Install fig
+
+  curl -L https://github.com/docker/fig/releases/download/0.5.2/linux > /tmp/fig
+  sudo mv /tmp/fig /usr/local/bin/fig
+  sudo chmod +x /usr/local/bin/fig
+fi
