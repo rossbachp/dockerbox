@@ -13,3 +13,11 @@ if [ ! -x /usr/local/bin/fig ]; then
   sudo mv /tmp/fig /usr/local/bin/fig
   sudo chmod +x /usr/local/bin/fig
 fi
+
+if [ ! -x /usr/local/bin/docker-squash ]; then
+  echo = Install docker-squash
+
+  wget https://github.com/jwilder/docker-squash/releases/download/v0.0.8/docker-squash-linux-amd64-v0.0.8.tar.gz
+  sudo tar -C /usr/local/bin -xzvf docker-squash-linux-amd64-v0.0.8.tar.gz
+  rm -f docker-squash-linux-amd64-v0.0.8.tar.gz
+fi
