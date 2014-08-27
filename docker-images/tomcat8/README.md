@@ -109,36 +109,13 @@ load jolokia and monitor via http
     docker build -t="rossbachp/tomcat8" .
     ID=$(docker inspect -f '{{ .Id }}' rossbachp/tomcat8)
     docker save $ID > tomcat8.tar
-    docker-squash -i tomcat8.tar -o tomcat8-squashed.tar -t squash
-    cat tomcat8-squashed.tar | docker load
+    sudo docker-squash -verbose -i tomcat8.tar -o tomcat8-squash.tar -t rossbachp/tomcat8:squash
+    cat tomcat8-squash.tar | docker load
     rm tomcat8.tar
-    rm tomcat8-squashed.tar
+    rm tomcat8-squash.tar
 
-Can't used currently, but is cool idea!
 
-```
-    panic: runtime error: index out of range
-
-goroutine 16 [running]:
-runtime.panic(0x584120, 0x69457c)
-	/usr/local/go/src/pkg/runtime/panic.c:279 +0xf5
-main.main()
-	/home/jwilder/go/src/github.com/jwilder/docker-squash/main.go:66 +0x2198
-
-goroutine 19 [runnable]:
-runfinq()
-	/usr/local/go/src/pkg/runtime/mgc0.c:2606
-runtime.goexit()
-	/usr/local/go/src/pkg/runtime/proc.c:1445
-
-goroutine 20 [runnable]:
-os/signal.loop()
-	/usr/local/go/src/pkg/os/signal/signal_unix.go:19
-created by os/signal.init·1
-	/usr/local/go/src/pkg/os/signal/signal_unix.go:27 +0x32
-```
-
-### push to registry
+### Push to registry
 
     Todo!
 
@@ -147,7 +124,7 @@ created by os/signal.init·1
 * [squashing-docker article](http://jasonwilder.com/blog/2014/08/19/squashing-docker-images/)
 * [github squashing-docker](https://github.com/jwilder/docker-squash)
 
-## other tomcat docker images
+## Other tomcat docker images
 
 * [ ConSol docker-appserver](https://github.com/ConSol/docker-appserver)
 * [tutum docker  tomcat images](https://github.com/tutumcloud/tutum-docker-tomcat)
