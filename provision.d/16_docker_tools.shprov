@@ -4,6 +4,8 @@ if [ ! -x /usr/local/bin/nsenter ]; then
   echo = Install nsenter
 
   sudo docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+  # remove nsenter install images
+  sudo docker rmi jpetazzo/nsenter
 fi
 
 if [ ! -x /usr/local/bin/fig ]; then
@@ -20,4 +22,5 @@ if [ ! -x /usr/local/bin/docker-squash ]; then
   wget https://github.com/jwilder/docker-squash/releases/download/v0.0.8/docker-squash-linux-amd64-v0.0.8.tar.gz
   sudo tar -C /usr/local/bin -xzvf docker-squash-linux-amd64-v0.0.8.tar.gz
   rm -f docker-squash-linux-amd64-v0.0.8.tar.gz
+  sudo chown root:root /usr/local/bin/docker-squash
 fi
