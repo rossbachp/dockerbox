@@ -3,11 +3,14 @@
 
 This repository contains **Dockerfile** of [µ](https://tomcat.apache.org/) for [Docker](https://www.docker.io/)'s [personal build](https://index.docker.io/u/rossbachp/tomcat8/) published to the public [Docker Registry](https://index.docker.io/).
 
+## Design
+
+![Apache Tomcat 8 docker image design](design-tomcat8-images.png)
 
 ## Dependencies
 
-* [dockerfile/ubuntu](http://dockerfile.github.io/#/ubuntu)
-* [rossbachp/java8](http://github.com/rossbachp/dockerbox)
+* [ubuntu](http://index.docker.io/u/_ubuntu)
+* [Dockerbox: rossbachp/java8](http://github.com/rossbachp/dockerbox)
 * [Apache Tomcat 8 Download ](https://archive.apache.org/dist/tomcat/tomcat-8)
 
 ## Installation
@@ -114,10 +117,14 @@ load jolokia and monitor via http
     rm tomcat8.tar
     rm tomcat8-squash.tar
 
+or simple use the ``./build.sh` or with cleanup `./build.sh --rmi`
 
 ### Push to registry
 
-    Todo!
+    docker login
+    docker push rossbachp/tomcat8:latest
+    docker push rossbachp/tomcat8:<DATE TAG>
+
 
 ### Links
 

@@ -42,10 +42,10 @@ RUN groupadd -r tomcat -g 433 && \
 useradd -u 431 -r -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin -c "Docker image user" tomcat && \
 chown -R tomcat:tomcat ${CATALINA_HOME}
 
-WORKDIR /${CATALINA_HOME}
+WORKDIR /opt/tomcat
 
 EXPOSE 8080
 EXPOSE 8009
 
 USER tomcat
-CMD ["/${CATALINA_HOME}/bin/tomcat.sh"]
+CMD ["/opt/tomcat/bin/tomcat.sh"]
