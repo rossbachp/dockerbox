@@ -1,4 +1,4 @@
-FROM rossbachp/java8
+FROM rossbachp/java8:latest
 MAINTAINER Peter Rossbach <peter.rossbach@bee42.com>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -34,14 +34,13 @@ RUN rm -rf ${CATALINA_HOME}/webapps/examples ${CATALINA_HOME}/webapps/docs ${CAT
 
 ADD server.xml ${CATALINA_HOME}/conf/server.xml
 ADD logging.properties ${CATALINA_HOME}/conf/logging.properties
-ADD create_tomcat_user.sh /create_tomcat_user.sh
-ADD tomcat.sh /tomcat.sh
-RUN chmod +x /*.sh
+ADD create_tomcat_user.sh ${CATALINA_HOME}/bin/create_tomcat_user.sh
+ADD tomcat.sh ${CATALINA_HOME}/bin/tomcat.sh
+RUN chmod +x ${CATALINA_HOME}/bin/*.sh
 
 RUN groupadd -r tomcat -g 433 && \
 useradd -u 431 -r -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin -c "Docker image user" tomcat && \
-chown -R tomcat:tomcat ${CATALINA_HOME} && \
-chown tomcat:tomcat /*.sh
+chown -R tomcat:tomcat ${CATALINA_HOME}
 
 WORKDIR /${CATALINA_HOME}
 
@@ -49,4 +48,4 @@ EXPOSE 8080
 EXPOSE 8009
 
 USER tomcat
-CMD ["/tomcat.sh"]
+CMD ["/${CATALINA_HOME}/bin/tomcat.sh"]
