@@ -87,8 +87,7 @@ Currently the apache tomcat8 images are available as automatic docker hub build 
 
     docker build -t="rossbachp/hello-app".
     docker run -it --name=hello-app rossbach/hello-app ls /webapps
-    HELLOID=$(docker inspect -f "{{.Id}}" hello-app)
-    docker run --name=tomcat8 -d -p 8080:8080 --volumes-from $HELLOID rossbachp/tomcat8
+    docker run --name=tomcat8 -d -p 8080:8080 --volumes-from hello-app rossbachp/tomcat8
     curl http://127.0.0.1:8080/hello/index.html
 
 **deploy with your system parameters**
