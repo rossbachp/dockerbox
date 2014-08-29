@@ -18,9 +18,11 @@
 	<key>GuidesVisible</key>
 	<string>YES</string>
 	<key>ImageCounter</key>
-	<integer>12</integer>
+	<integer>16</integer>
 	<key>ImageLinkBack</key>
 	<array>
+		<dict/>
+		<dict/>
 		<dict/>
 		<dict/>
 		<dict/>
@@ -31,6 +33,8 @@
 	</array>
 	<key>ImageList</key>
 	<array>
+		<string>image15.tiff</string>
+		<string>image12.png</string>
 		<string>image10.png</string>
 		<string>image8.tiff</string>
 		<string>image7.png</string>
@@ -46,7 +50,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2014-08-28 20:30:09 +0000</string>
+	<string>2014-08-29 06:57:07 +0000</string>
 	<key>Modifier</key>
 	<string>Peter Rossbach</string>
 	<key>NotesVisible</key>
@@ -1465,6 +1469,76 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
+					<string>{{130.66667683919266, 24.000002543131497}, {36.666660308837891, 48}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>862</integer>
+					<key>ImageID</key>
+					<integer>15</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>stroke</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{112.58615985879131, 504.50001285359866}, {55.49432373046875, 43}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>908</integer>
+					<key>ImageID</key>
+					<integer>12</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>stroke</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{90, 504.49999872843432}, {100.66666412353516, 43}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>74</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+				</dict>
+				<dict>
+					<key>Bounds</key>
 					<string>{{979.88526037973327, 93.166744670029431}, {39.562893954073552, 13.999999999999993}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
@@ -2104,7 +2178,7 @@ aufs or btrfs}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{191.00000000000006, 552}, {517.99999999999989, 43}}</string>
+					<string>{{90, 552}, {619, 43}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -5008,7 +5082,7 @@ for change}</string>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{42, 4}, {1106, 874}}</string>
+		<string>{{452, -4}, {1106, 874}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -5022,7 +5096,7 @@ for change}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{0, 8.6666666666666661}, {647.33333333333337, 490}}</string>
+		<string>{{0, 0}, {647.33333333333337, 490}}</string>
 		<key>Zoom</key>
 		<real>1.5</real>
 		<key>ZoomValues</key>

@@ -1,29 +1,58 @@
-# Tomcat 8 Dockerfile
+# Apache Tomcat 8 optimized images
+
+This repository contains **Dockerfile** of [Apache Tomcat 8](https://tomcat.apache.org/).
 
 
-This repository contains **Dockerfile** of [µ](https://tomcat.apache.org/) for [Docker](https://www.docker.io/)'s [personal build](https://index.docker.io/u/rossbachp/tomcat8/) published to the public [Docker Registry](https://index.docker.io/).
+It use a [Docker](https://www.docker.com/)'s [personal build](https://registry.hub.docker.com/u/rossbachp/apache-tomcat8/) published to the public [Docker Registry](https://registry.hub.docker.com/).
 
 ## Design
 
+This docker apache tomcat images supports production and development. A lot of other tomcat docker images exist, but the only support development or not use the newest version or bundle an open jdk. We want build a nicer one. Send us your missing features!
+
+**Goals**
+* use minimal ubuntu and java8 base images (work in progress)
+* inject libs and wars as volumes (data container)
+* deploy the manager app and generate password at start
+* clean up installation and remove examples and unused `*.bat`, .. files.
+* squash footprint and clean up build artefacts
+* use a nicer access log pattern :-)
+* use a cleanup server.xml without comments
+  * use separate executor
+  * setup HTTP (8080) and AJP (8009) connectors and expose ports
+  * currently not support APR Connectors or configure other then standard NIO
+* reuse existing cool ideas from other nice guys. Many thanks;)
+
+You can deploy your own webapps and tomcat extended library with local volumens or better with a docker data container.
+
 ![Apache Tomcat 8 docker image design](design-tomcat8-images.png)
+
+## Found the tomcat docker images
+
+Currently the apache tomcat8 images are available as automatic docker hub build and a squash version.
+
+* [docker hub build](https://registry.hub.docker.com/u/rossbachp/apache-tomcat8/)
+* [optimized squash  build](https://registry.hub.docker.com/u/rossbachp/tomcat8/) (s. build.sh)
 
 ## Dependencies
 
-* [ubuntu](http://index.docker.io/u/_ubuntu)
-* [Dockerbox: rossbachp/java8](http://github.com/rossbachp/dockerbox)
+* [ubuntu](https://registry.hub.docker.com/u/_ubuntu)
+* [Dockerbox java8 image: rossbachp/java8 source ](https://github.com/rossbachp/dockerbox/tree/master/docker-images/java8)
+* [rossbachp/java8 images ](https://registry.hub.docker.com/u/rossbachp/java8)
 * [Apache Tomcat 8 Download ](https://archive.apache.org/dist/tomcat/tomcat-8)
+* [squashing-docker article](http://jasonwilder.com/blog/2014/08/19/squashing-docker-images/)
 
 ## Installation
 
-1. Install [Docker](https://www.docker.io/).
-2. Download [my java 8 build](https://index.docker.io/u/rossbachp/java8/) or from public [Docker Registry](https://index.docker.io/): `docker pull rossbachp/java8`
-3. Download [my tomcat 8 build](https://index.docker.io/u/rossbachp/tomcat8/) or from public [Docker Registry](https://index.docker.io/): `docker pull rossbachp/tomcat8`
+1. Install [Docker](https://www.docker.com/).
+2. Download [rossbachp/java8](https://registry.hub.docker.com/u/rossbachp/java8): `docker pull rossbachp/java8`
+3. Download [rossbachp/tomcat8](https://registry.hub.docker.com/u/rossbachp/tomcat8): `docker pull rossbachp/tomcat8` or [rossbachp/apache-tomcat8](https://registry.hub.docker.com/u/rossbachp/apache-tomcat8): `docker pull rossbachp/apache-tomcat8` or
 
 ## Usage
 
-    docker run -it --rm rossbachp/tomcat8
+    docker run -it --rm -P rossbachp/apache-tomcat8
+    docker run -it --rm -P rossbachp/tomcat8
 
-### Run _tomcat with a sample hello world_
+### Run _tomcat8_ with a sample _hello world_
 
     mkdir -p hello
     cd hello
@@ -33,6 +62,57 @@ This repository contains **Dockerfile** of [µ](https://tomcat.apache.org/) for 
     docker run --name=tomcat8 -d -p 8080:8080 -v `pwd`:/webapps rossbachp/tomcat8
     curl http://127.0.0.1:8080/hello/index.html
 
+### Run _tomcat8_ with a sample _hello world_ at a data container
+
+    mkdir -p hello
+    cd hello
+    echo "Hello Docker Tomcat World" >index.jsp
+    jar -cf ../hello.war .
+    cd ..
+    vi Dockerfile
+
+**Dockerfile**
+
+    FROM busybox
+    MAINTAINER Peter Rossbach <peter.rossbach@bee42.com>
+
+    RUN mkdir /webapps
+    ADD hello.war /webapps/hello.war
+
+    VOLUME ["/webapps"]
+
+    CMD /bin/sh
+
+**Running**
+
+    docker build -t="rossbachp/hello-app".
+    docker run -it --name=hello-app rossbach/hello-app ls /webapps
+    HELLOID=$(docker inspect -f "{{.Id}}" hello-app)
+    docker run --name=tomcat8 -d -p 8080:8080 --volumes-from $HELLOID rossbachp/tomcat8
+    curl http://127.0.0.1:8080/hello/index.html
+
+**deploy with your system parameters**
+
+    docker run -it --rm --env CATALINA_OPTS="-Ddb.user=admin -Ddb.password=secret" -v `pwd`/webapps:/webapps -v `pwd`/libs:/libs rossbachp/tomcat8
+
+**use your own JVM_ROUTE**
+
+    docker run -it --rm --env TOMCAT_JVM_ROUTE=tomcat79 -p 7980:8080 -p 7909:8009 -v `pwd`/webapps:/webapps rossbachp/tomcat8
+
+### tomcat docker images ENV parameter
+
+| Parameter | Default | Comment |
+|-----------|---------|---------|
+| `JAVA_MAXMEMORY`| `256`| setup jvm max memory|
+| `TOMCAT_MAXTHREADS`| `250`| setup max executor threads|
+| `TOMCAT_MINSPARETHREADS`|  `4` |setup min spare executor threads|
+| `TOMCAT_HTTPTIMEOUT`| `20000` | setup http connector timeout |
+| `TOMCAT_JVM_ROUTE`| `tomcat80`| support session sticky ness suffix|
+| `TOMCAT_JVM_ROUTE`| `tomcat80`| support session sticky ness suffix|
+| `TOMCAT_PASS` | random generated | admin password |
+| `CATALINA_OPTS` | s. `tomcat.sh` | tomcat start parameter |
+| `JAVA_OPTS` | s. `tomcat.sh` | spezial java start/stop parameter |
+
 ### get _tomcat container IP and ports_
 
     $ DOCKER_HOST_IP=$(docker inspect -f '{{.NetworkSettings.IPAddress}}'
@@ -40,22 +120,6 @@ This repository contains **Dockerfile** of [µ](https://tomcat.apache.org/) for 
     8080/tcp=172.17.0.30:8080
     8009/tcp=172.17.0.30:8009
 
-### deploy your own war's/webapps
-
-deploy some application war file at your local webapps directory
-    docker run -it --rm -v `pwd`/webapps:/webapps rossbachp/tomcat8
-
-deploy with some tomcat extensions
-
-    docker run -it --rm -v `pwd`/webapps:/webapps -v `pwd`/libs:/libs rossbachp/tomcat8
-
-deploy with your system parameters
-
-    docker run -it --rm -e CATALINA_OPTS="-Ddb.user=admin -Ddb.password=secret" -v `pwd`/webapps:/webapps -v `pwd`/libs:/libs rossbachp/tomcat8
-
-your your own JVM_ROUTE
-
-    docker run -it --rm -e TOMCAT_JVM_ROUTE=tomcat79 -p 7980:8080 -p 7909:8009 -v `pwd`/webapps:/webapps rossbachp/tomcat8
 
 ### Run `list all deployed apps`
 
@@ -64,7 +128,7 @@ your your own JVM_ROUTE
     OK - Listed applications for virtual host localhost
     /manager:running:0:manager
 
-Password can be extract from logs:
+The admin password can be extract from logs:
 
     $ docker logs tomcat8 | head
     => Creating and admin user with a random password in Tomcat
@@ -78,19 +142,21 @@ Password can be extract from logs:
     Checking *.war in /webapps
     Checking tomcat extended libs *.jar in /libs
 
-or set at your tomcat docker container start:
+or set at your password at container starts:
 
     docker run -d --name=tomcat8 --env TOMCAT_PASS=password rossbachp/tomcat8
 
-### monitor tomcat with nsenter
+### debug tomcat with nsenter
 
 Install [nsenter](https://github.com/jpetazzo/nsenter):
 
     sudo docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
 
-Tail tomcat logs
+Tail tomcat app or access logs
 
     sudo docker-enter tomcat8 tail -f /opt/tomcat/logs/catalina-2014-08-27.log
+    sudo docker-enter tomcat8 tail -f /opt/tomcat/logs/access-2014-08-27.log
+
 
 or
 
@@ -100,12 +166,14 @@ Run jstat
 
     sudo docker-enter tomcat8 su tomcat --shell /bin/bash -c 'jstat -gc 1 5000'
 
-run jonsole?
+More space for research:
 
-load jolokia and monitor via http
+* run jonsole?
+  * add jmx port and expose
+  * secure
+* load jolokia and monitor via http
 
-## build, squash and push
-
+## manually build, squash and push
 
     sudo bash
     cd /tmp
@@ -119,7 +187,7 @@ load jolokia and monitor via http
 
 or simple use the ``./build.sh` or with cleanup `./build.sh --rmi`
 
-### Push to registry
+### Push to docker hub registry
 
     docker login
     docker push rossbachp/tomcat8:latest
@@ -131,7 +199,26 @@ or simple use the ``./build.sh` or with cleanup `./build.sh --rmi`
 * [squashing-docker article](http://jasonwilder.com/blog/2014/08/19/squashing-docker-images/)
 * [github squashing-docker](https://github.com/jwilder/docker-squash)
 
-## Other tomcat docker images
+## Other nice tomcat docker images
 
 * [ ConSol docker-appserver](https://github.com/ConSol/docker-appserver)
 * [tutum docker  tomcat images](https://github.com/tutumcloud/tutum-docker-tomcat)
+Many thanks for that.
+
+## Todo
+* setup JMX and monitoring
+* support APR Connector
+* support SSL
+* setup your own server.xml
+* integrate a check api
+  * use [coda hale metrics](http://metrics.codahale.com/)
+  * build my own checker
+  * test nagios checks
+* more samples
+  * JDBC sample with fig setup
+  * auto scaling apache/mod_jk ectd sample
+
+##
+Have fun with this tomcat images and give feedback!
+
+Peter
