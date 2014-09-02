@@ -98,6 +98,12 @@ Currently the apache tomcat8 images are available as automatic docker hub build 
 
     docker run -it --rm --env TOMCAT_JVM_ROUTE=tomcat79 -p 7980:8080 -p 7909:8009 -v `pwd`/webapps:/webapps rossbachp/tomcat8
 
+**stop tomcat**
+
+    docker stop --time=10 tomcat8
+
+  - This send _SIGTERM_ and after 10 seconds sends _SIGKILL_, if tomcat process is not stopped before.
+
 ### tomcat docker images ENV parameter
 
 | Parameter | Default | Comment |
@@ -192,30 +198,65 @@ or simple use the ``./build.sh` or with cleanup `./build.sh --rmi`
     docker push rossbachp/tomcat8:latest
     docker push rossbachp/tomcat8:<DATE TAG>
 
-
 ### Links
 
 * [squashing-docker article](http://jasonwilder.com/blog/2014/08/19/squashing-docker-images/)
 * [github squashing-docker](https://github.com/jwilder/docker-squash)
 
+## Option for better logging
+
+  - Use a volume for logging `sudo docker run --rm -t -v /var/log/tomcat8:/opt/tomcat/logs rossbachp/tomcat8` and delegate it to logstash-forwarder or rsyslog.
+  - Use only stdout/stderr or file output handler
+  - Don't let make file rotation, compression and archive control from outside
+
+The current configured logging need a better solutions!
+
+  - [Docker logstash](https://denibertovic.com/post/docker-and-logstash-smarter-log-management-for-your-containers/)
+  - [syslog-docker](http://jpetazzo.github.io/2014/08/24/syslog-docker/)
+  - [SyslogValve](https://github.com/magwas/SyslogValve)
+  - [tomcat-slf4j-logback](https://github.com/grgrzybek/tomcat-slf4j-logback)
+  - [Logback appenders](http://logback.qos.ch/manual/appenders.html)
+  - [Graylog2 Logger](http://graylog2.org/resources/gelf)
+  - [logback-gelf](https://github.com/Moocar/logback-gelf)
+    - Only supports UDP
+    - Java Implementation
+    - Test TCP GELF: `echo -e '{"version": "1.1","host":"example.org","short_message":"A short message that helps you identify what is going on","full_message":"Backtrace here\n\nmore stuff","level":1,"_user_id":9001,"_some_info":"foo","_some_env_var":"bar"}\0' | nc -w 1 my.graylog.server 12201`
+        - See send _null character_ at end of your multiline messages!
+
+At your application you can use beter directly use syslog but how we configure syslog host?:
+
+```xml
+<appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>localhost</syslogHost>
+        <facility>LOCAL6</facility>
+        <suffixPattern>app: %logger{20} %msg</suffixPattern>
+</appender>
+```
+
+  - Use DNS link name at `/etc/hosts` with new writable docker >= 1.2 feature
+    - `@{syslog.PrivateIpAddress} syslog`
+    - [docker-leaving-immutable-infrastructure](http://devops.com/blogs/docker-leaving-immutable-infrastructure-2/)
+    - Logback can read OS Env vars, that means docker link argument works!
+
 ## Other nice tomcat docker images
 
-* [ ConSol docker-appserver](https://github.com/ConSol/docker-appserver)
-* [tutum docker  tomcat images](https://github.com/tutumcloud/tutum-docker-tomcat)
+  * [ ConSol docker-appserver](https://github.com/ConSol/docker-appserver)
+  * [tutum docker  tomcat images](https://github.com/tutumcloud/tutum-docker-tomcat)
 Many thanks for that.
 
 ## Todo
-* setup JMX and monitoring
-* support APR Connector
-* support SSL
-* setup your own server.xml
-* integrate a check api
-  * use [coda hale metrics](http://metrics.codahale.com/)
-  * build my own checker
-  * test nagios checks
-* more samples
-  * JDBC sample with fig setup
-  * auto scaling apache/mod_jk ectd sample
+  * setup better logging
+  * setup JMX and monitoring
+  * support APR Connector
+  * support SSL
+  * setup your own server.xml
+  * integrate a check api
+    * use [coda hale metrics](http://metrics.codahale.com/)
+    * build my own checker
+    * test nagios checks
+  * more samples
+    * JDBC sample with fig setup
+    * auto scaling apache/mod_jk ectd sample
 
 ##
 Have fun with this tomcat images and give feedback!

@@ -50,7 +50,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2014-08-29 06:57:07 +0000</string>
+	<string>2014-08-31 12:19:00 +0000</string>
 	<key>Modifier</key>
 	<string>Peter Rossbach</string>
 	<key>NotesVisible</key>
@@ -1469,6 +1469,41 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
+					<string>{{466.66667683919258, 13.999994993209317}, {62.833332061767578, 38}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>912</integer>
+					<key>Shape</key>
+					<string>Rectangle</string>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Color</key>
+							<dict>
+								<key>b</key>
+								<string>0.802139</string>
+								<key>g</key>
+								<string>0.802125</string>
+								<key>r</key>
+								<string>0.802149</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
+
+\f0\fs24 \cf0 /opt/tomcat/logs}</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
 					<string>{{130.66667683919266, 24.000002543131497}, {36.666660308837891, 48}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
@@ -2132,7 +2167,7 @@ rossbachp/tomcat8}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 device mapper\
+\f0\fs24 \cf0 device mapper,\
 aufs or btrfs}</string>
 					</dict>
 				</dict>
@@ -5082,7 +5117,7 @@ for change}</string>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{452, -4}, {1106, 874}}</string>
+		<string>{{-3, -44}, {1106, 874}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -5096,7 +5131,7 @@ for change}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{0, 0}, {647.33333333333337, 490}}</string>
+		<string>{{204.66666666666666, 0}, {647.33333333333337, 490}}</string>
 		<key>Zoom</key>
 		<real>1.5</real>
 		<key>ZoomValues</key>
