@@ -10,19 +10,20 @@ FROM ubuntu:14.04
 MAINTAINER Peter Rossbach <peter.rossbach@bee42.com>
 
 ENV JAVAVERSION 20
+ENV JAVA_HOME /opt/Oracle_Java/jdk1.8.0_20
 
 ADD downloads/server-jre-8u${JAVAVERSION}-linux-x64.tar.gz /opt/Oracle_Java
 
 # Install JRE and clean up 
 RUN \
-  update-alternatives --install "/usr/bin/java" "java" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/java" 1 && \
-  update-alternatives --install "/usr/bin/javac" "javac" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/javac" 1 && \
-  update-alternatives --install "/usr/bin/jar" "jar" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/jar" 1 && \
-  update-alternatives --install "/usr/bin/jps" "jps" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/jps" 1 && \
-  update-alternatives --set "java" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/java"  && \
-  update-alternatives --set "javac" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/javac" && \ 
-  update-alternatives --set "jar" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/jar"  && \
-  update-alternatives --set "jps" "/opt/Oracle_Java/jdk1.8.0_${JAVAVERSION}/bin/jps"
+  update-alternatives --install "/usr/bin/java" "java" "$JAVA_HOME/bin/java" 1 && \
+  update-alternatives --install "/usr/bin/javac" "javac" "$JAVA_HOME/bin/javac" 1 && \
+  update-alternatives --install "/usr/bin/jar" "jar" "$JAVA_HOME/bin/jar" 1 && \
+  update-alternatives --install "/usr/bin/jps" "jps" "$JAVA_HOME/bin/jps" 1 && \
+  update-alternatives --set "java" "$JAVA_HOME/bin/java"  && \
+  update-alternatives --set "javac" "$JAVA_HOME/bin/javac" && \ 
+  update-alternatives --set "jar" "$JAVA_HOME/bin/jar"  && \
+  update-alternatives --set "jps" "$JAVA_HOME/bin/jps"
 
 RUN \
   rm -rf /usr/share/doc /usr/share/man
