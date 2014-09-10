@@ -11,7 +11,9 @@ if [[ $? -ne 0 ]]; then
   sudo sh -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
   sudo apt-get update -yqq
   sudo apt-get install -yqq lxc-docker
-
+  usermod -a -G docker vagrant
+  sudo docker version
+  su - vagrant -c 'echo alias d=docker >> ~/.bash_aliases'
 fi
 
 sudo docker pull ubuntu:14.04
