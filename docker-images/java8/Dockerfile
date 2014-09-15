@@ -27,8 +27,10 @@ RUN \
   rm -f /usr/lib/jvm/java-${JAVAVERSION}-oracle/javafx-src.zip && \
   rm -rf /usr/share/doc /usr/share/man && \
   apt-get --purge remove -y software-properties-common && \
+  apt-get clean autoclean && \
   apt-get autoremove -y && \
-  apt-get clean
+  rm -rf /var/lib/{apt,dpkg,cache,log}/
+ 
 
 # Define mountable directories.
 VOLUME ["/data"]

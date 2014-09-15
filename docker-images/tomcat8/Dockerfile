@@ -42,6 +42,10 @@ RUN groupadd -r tomcat -g 433 && \
 useradd -u 431 -r -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin -c "Docker image user" tomcat && \
 chown -R tomcat:tomcat ${CATALINA_HOME}
 
+RUN apt-get clean autoclean && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/
+
 WORKDIR /opt/tomcat
 
 EXPOSE 8080

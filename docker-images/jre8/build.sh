@@ -9,7 +9,7 @@ docker build -t="$IMAGETAG" .
 BUILDID=$(docker inspect -f "{{.Id}}" $IMAGETAG)
 
 echo "= squash image $IMAGETAG"
-docker save $BUILDID | docker-squash -t $IMAGETAG-squash | docker load
+docker save $BUILDID | docker-squash -t $IMAGETAG-squash -from root | docker load
 SQUASHID=$(docker inspect -f "{{.Id}}" $IMAGETAG-squash)
 docker tag $SQUASHID ${ACCOUNT}/${IMAGE}:latest
 

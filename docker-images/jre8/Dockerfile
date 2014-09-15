@@ -27,7 +27,7 @@ RUN \
 
 RUN \
   rm -rf /usr/share/doc /usr/share/man
-  
+   
 # Define mountable directories.
 VOLUME ["/data"]
 
