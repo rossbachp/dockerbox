@@ -2,3 +2,4 @@ echo == Updating, installing packages
 
 sudo apt-get -y update
 sudo apt-get -y install bridge-utils
+sudo apt-get -y install jq
