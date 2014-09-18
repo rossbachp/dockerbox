@@ -15,7 +15,7 @@ $ cd /opt/ubuntu
 $ chmod +x createbaseimage.sh
 $ ./createbaseimage.sh
 $ docker images | grep rossbachp/ubuntu
-rossbach/ubuntu             14.04                19ab99bb1211        About an hour ago   179.4 MB
+rossbachp/ubuntu             14.04                19ab99bb1211        About an hour ago   179.4 MB
 ```
 
 Run commands with the your own base images
